@@ -1,0 +1,102 @@
+[
+  {
+    "id": "Q01",
+    "prompt": "Which plant do you relate to today?",
+    "targetDimension": "valence",
+    "options": [
+      { "id": "A", "text": "A cactus—standing strong, a bit guarded", "scores": { "v": -1, "a": 0, "c": 1 } },
+      { "id": "B", "text": "A sunflower—reaching toward the light", "scores": { "v": 2, "a": 1, "c": 0 } },
+      { "id": "C", "text": "A fern in the shade—soft, quiet, resting", "scores": { "v": 0, "a": -2, "c": -1 } }
+    ]
+  },
+  {
+    "id": "Q02",
+    "prompt": "Which weather describes your inner state right now?",
+    "targetDimension": "arousal",
+    "options": [
+      { "id": "A", "text": "Clear sky, gentle breeze", "scores": { "v": 1, "a": 0, "c": 1 } },
+      { "id": "B", "text": "Overcast, waiting for the sun", "scores": { "v": -1, "a": -1, "c": 0 } },
+      { "id": "C", "text": "Warm sun, everything feels possible", "scores": { "v": 2, "a": 2, "c": 1 } }
+    ]
+  },
+  {
+    "id": "Q03",
+    "prompt": "Which creature would you be in this moment?",
+    "targetDimension": "control",
+    "options": [
+      { "id": "A", "text": "A butterfly—light, moving with the wind", "scores": { "v": 1, "a": 0, "c": -1 } },
+      { "id": "B", "text": "A bird on a branch—observing, at ease", "scores": { "v": 0, "a": -1, "c": 1 } },
+      { "id": "C", "text": "A turtle—taking things slow, protected", "scores": { "v": -1, "a": -2, "c": 1 } }
+    ]
+  },
+  {
+    "id": "Q04",
+    "prompt": "If you were a body of water, what would you be?",
+    "targetDimension": "arousal",
+    "options": [
+      { "id": "A", "text": "A still pond—reflective, deep", "scores": { "v": 0, "a": -2, "c": 0 } },
+      { "id": "B", "text": "A gentle stream—flowing, steady", "scores": { "v": 1, "a": 0, "c": 1 } },
+      { "id": "C", "text": "The ocean at dawn—vast, full of possibility", "scores": { "v": 2, "a": 1, "c": 0 } }
+    ]
+  },
+  {
+    "id": "Q05",
+    "prompt": "What time of day feels most like you right now?",
+    "targetDimension": "valence",
+    "options": [
+      { "id": "A", "text": "Early morning—quiet, before the world wakes", "scores": { "v": -1, "a": -1, "c": 0 } },
+      { "id": "B", "text": "Midday—bright, in the thick of it", "scores": { "v": 1, "a": 2, "c": 1 } },
+      { "id": "C", "text": "Golden hour—soft light, gentle wind-down", "scores": { "v": 1, "a": -1, "c": 1 } }
+    ]
+  },
+  {
+    "id": "Q06",
+    "prompt": "Which texture matches how you feel inside?",
+    "targetDimension": "control",
+    "options": [
+      { "id": "A", "text": "Smooth stone—worn, steady, grounded", "scores": { "v": 0, "a": 0, "c": 2 } },
+      { "id": "B", "text": "Soft moss—tender, receptive", "scores": { "v": 0, "a": -1, "c": -1 } },
+      { "id": "C", "text": "Warm sand—shifting, adaptable", "scores": { "v": 1, "a": 0, "c": 0 } }
+    ]
+  },
+  {
+    "id": "Q07",
+    "prompt": "What sound would you make if you could?",
+    "targetDimension": "arousal",
+    "options": [
+      { "id": "A", "text": "A hum—low, steady, constant", "scores": { "v": 0, "a": -2, "c": 1 } },
+      { "id": "B", "text": "Wind through leaves—soft, rustling", "scores": { "v": 0, "a": -1, "c": 0 } },
+      { "id": "C", "text": "A clear bell—ringing out, resonant", "scores": { "v": 1, "a": 1, "c": 1 } }
+    ]
+  },
+  {
+    "id": "Q08",
+    "prompt": "Where does your path feel like it's leading today?",
+    "targetDimension": "control",
+    "options": [
+      { "id": "A", "text": "Uphill—effort, but I'm moving", "scores": { "v": 0, "a": 1, "c": 1 } },
+      { "id": "B", "text": "A flat stretch—steady, no rush", "scores": { "v": 1, "a": 0, "c": 1 } },
+      { "id": "C", "text": "A rest stop—pausing, catching my breath", "scores": { "v": -1, "a": -2, "c": -1 } }
+    ]
+  },
+  {
+    "id": "Q09",
+    "prompt": "What kind of light are you drawn to right now?",
+    "targetDimension": "valence",
+    "options": [
+      { "id": "A", "text": "Candlelight—warm, intimate, soft", "scores": { "v": 0, "a": -1, "c": 0 } },
+      { "id": "B", "text": "Window light—natural, clear, honest", "scores": { "v": 1, "a": 0, "c": 1 } },
+      { "id": "C", "text": "Open sky—bright, expansive, limitless", "scores": { "v": 2, "a": 1, "c": 0 } }
+    ]
+  },
+  {
+    "id": "Q10",
+    "prompt": "Which season lives inside you today?",
+    "targetDimension": "valence",
+    "options": [
+      { "id": "A", "text": "Winter—quiet, inward, conserving", "scores": { "v": -2, "a": -1, "c": 0 } },
+      { "id": "B", "text": "Spring—something stirring, new growth", "scores": { "v": 1, "a": 1, "c": 0 } },
+      { "id": "C", "text": "Summer—full, abundant, alive", "scores": { "v": 2, "a": 2, "c": 1 } }
+    ]
+  }
+]
