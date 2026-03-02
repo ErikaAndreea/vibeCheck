@@ -117,6 +117,7 @@
       .map(
         (opt) => `
         <button type="button" class="option" data-question-id="${escapeHtml(question.id)}" data-option-id="${escapeHtml(opt.id)}" data-v="${opt.scores.v}" data-a="${opt.scores.a}" data-c="${opt.scores.c}">
+          ${opt.emoji ? `<span class="option__icon" aria-hidden="true">${opt.emoji}</span>` : ""}
           <span class="option__content">
             <span class="option__label">${escapeHtml(opt.text)}</span>
           </span>
