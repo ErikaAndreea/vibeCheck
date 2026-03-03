@@ -4,6 +4,195 @@
   const STORAGE_KEY = "vibe_check_session";
   const QUESTIONS_PER_SESSION = 5;
   const CONFIDENCE_THRESHOLD = 2;
+  const PODCASTS_BY_MOOD = {
+    Calm: [
+      {
+        title: "The Slow Down",
+        description: "Short, steady poems to settle your pace.",
+        url: "https://www.slowdownshow.org/",
+      },
+      {
+        title: "Nothing Much Happens",
+        description: "Soft storytelling that invites rest.",
+        url: "https://www.nothingmuchhappens.com/",
+      },
+      {
+        title: "On Being",
+        description: "Spacious conversations about meaning and quiet joy.",
+        url: "https://onbeing.org/series/podcast/",
+      },
+    ],
+    Peaceful: [
+      {
+        title: "Nothing Much Happens",
+        description: "Soft storytelling that invites rest.",
+        url: "https://www.nothingmuchhappens.com/",
+      },
+      {
+        title: "On Being",
+        description: "Spacious conversations about meaning and quiet joy.",
+        url: "https://onbeing.org/series/podcast/",
+      },
+      {
+        title: "LeVar Burton Reads",
+        description: "Warm short fiction with a gentle tempo.",
+        url: "https://www.levarburtonpodcast.com/",
+      },
+    ],
+    Energized: [
+      {
+        title: "The Daily",
+        description: "Clear, fast-moving stories to focus your energy.",
+        url: "https://www.nytimes.com/column/the-daily",
+      },
+      {
+        title: "How I Built This",
+        description: "Motivating founder stories with momentum.",
+        url: "https://www.npr.org/podcasts/510313/how-i-built-this",
+      },
+      {
+        title: "Crime Junkie",
+        description: "A gripping pace when you want intensity.",
+        url: "https://crimejunkiepodcast.com/",
+      },
+    ],
+    Motivated: [
+      {
+        title: "How I Built This",
+        description: "Founder journeys with practical lessons.",
+        url: "https://www.npr.org/podcasts/510313/how-i-built-this",
+      },
+      {
+        title: "The Tim Ferriss Show",
+        description: "Deep dives into high-performance habits.",
+        url: "https://tim.blog/podcast/",
+      },
+      {
+        title: "WorkLife",
+        description: "Actionable insights for career growth.",
+        url: "https://www.ted.com/podcasts/worklife",
+      },
+    ],
+    Balanced: [
+      {
+        title: "The Ezra Klein Show",
+        description: "Thoughtful interviews that stretch your view.",
+        url: "https://www.nytimes.com/column/ezra-klein-podcast",
+      },
+      {
+        title: "The Daily",
+        description: "Focused, well-paced reporting.",
+        url: "https://www.nytimes.com/column/the-daily",
+      },
+      {
+        title: "The Happiness Lab",
+        description: "Science-backed ways to feel more grounded.",
+        url: "https://www.happinesslab.fm/",
+      },
+    ],
+    Stressed: [
+      {
+        title: "The Happiness Lab",
+        description: "Evidence-based tools to soften stress.",
+        url: "https://www.happinesslab.fm/",
+      },
+      {
+        title: "Ten Percent Happier",
+        description: "Practical mindfulness for busy minds.",
+        url: "https://www.tenpercent.com/podcast",
+      },
+      {
+        title: "Sleep With Me",
+        description: "A low-stakes story to unwind.",
+        url: "https://www.sleepwithmepodcast.com/",
+      },
+    ],
+    Anxious: [
+      {
+        title: "Ten Percent Happier",
+        description: "Practical mindfulness for busy minds.",
+        url: "https://www.tenpercent.com/podcast",
+      },
+      {
+        title: "The Calm Collective",
+        description: "Guided practices to lower the volume.",
+        url: "https://www.thecalmcollective.com/podcast",
+      },
+      {
+        title: "Sleep With Me",
+        description: "A low-stakes story to unwind.",
+        url: "https://www.sleepwithmepodcast.com/",
+      },
+    ],
+    Overwhelmed: [
+      {
+        title: "The Happiness Lab",
+        description: "Evidence-based tools to soften overload.",
+        url: "https://www.happinesslab.fm/",
+      },
+      {
+        title: "On Purpose",
+        description: "Gentle encouragement for big feelings.",
+        url: "https://www.jayshetty.me/podcast/",
+      },
+      {
+        title: "Nothing Much Happens",
+        description: "Soft storytelling that invites rest.",
+        url: "https://www.nothingmuchhappens.com/",
+      },
+    ],
+    Drained: [
+      {
+        title: "Nothing Much Happens",
+        description: "Soft storytelling that invites rest.",
+        url: "https://www.nothingmuchhappens.com/",
+      },
+      {
+        title: "The Slow Down",
+        description: "Short, steady poems to settle your pace.",
+        url: "https://www.slowdownshow.org/",
+      },
+      {
+        title: "Sleep With Me",
+        description: "A low-stakes story to unwind.",
+        url: "https://www.sleepwithmepodcast.com/",
+      },
+    ],
+    Unmotivated: [
+      {
+        title: "WorkLife",
+        description: "Actionable insights for career growth.",
+        url: "https://www.ted.com/podcasts/worklife",
+      },
+      {
+        title: "The Tim Ferriss Show",
+        description: "Deep dives into high-performance habits.",
+        url: "https://tim.blog/podcast/",
+      },
+      {
+        title: "How I Built This",
+        description: "Founder journeys with practical lessons.",
+        url: "https://www.npr.org/podcasts/510313/how-i-built-this",
+      },
+    ],
+  };
+  const DEFAULT_PODCASTS = [
+    {
+      title: "The Daily",
+      description: "Focused, well-paced reporting.",
+      url: "https://www.nytimes.com/column/the-daily",
+    },
+    {
+      title: "On Being",
+      description: "Spacious conversations about meaning and quiet joy.",
+      url: "https://onbeing.org/series/podcast/",
+    },
+    {
+      title: "The Happiness Lab",
+      description: "Science-backed ways to feel more grounded.",
+      url: "https://www.happinesslab.fm/",
+    },
+  ];
 
   let questionBank = [];
   let moodProfiles = [];
@@ -86,6 +275,29 @@
     const div = document.createElement("div");
     div.textContent = str;
     return div.innerHTML;
+  }
+
+  function getPodcastRecommendations(label) {
+    const moods = label.split(" & ").map((item) => item.trim()).filter(Boolean);
+    const picks = [];
+    const seen = new Set();
+    const add = (items) => {
+      items.forEach((item) => {
+        if (!seen.has(item.title)) {
+          seen.add(item.title);
+          picks.push(item);
+        }
+      });
+    };
+    if (moods.length === 0) {
+      add(DEFAULT_PODCASTS);
+      return picks.slice(0, 3);
+    }
+    moods.forEach((mood) => {
+      const items = PODCASTS_BY_MOOD[mood] || DEFAULT_PODCASTS;
+      add(items);
+    });
+    return picks.slice(0, 4);
   }
 
   function renderIntro(onStart) {
@@ -171,12 +383,32 @@
     el.className = "results";
     el.setAttribute("role", "region");
     el.setAttribute("aria-label", "Quiz results");
+    const podcasts = getPodcastRecommendations(label);
+    const podcastHtml = podcasts
+      .map(
+        (podcast) => `
+        <li class="podcast-item">
+          <a class="podcast-item__title" href="${escapeHtml(podcast.url)}" target="_blank" rel="noopener noreferrer">
+            ${escapeHtml(podcast.title)}
+          </a>
+          <span class="podcast-item__desc">${escapeHtml(podcast.description)}</span>
+        </li>
+      `
+      )
+      .join("");
     el.innerHTML = `
       <p class="results__label">Your current vibe</p>
       <h2 class="results__vibe">${escapeHtml(label)}</h2>
       <p class="results__message">
         Take a moment to sit with this. There's no right or wrong—just what feels true for you right now.
       </p>
+      <section class="results__podcasts" aria-label="Podcast recommendations">
+        <h3 class="results__section-title">Podcasts for this vibe</h3>
+        <p class="results__section-note">A few gentle listens to match your current mood.</p>
+        <ul class="podcast-list" role="list">
+          ${podcastHtml}
+        </ul>
+      </section>
       <button class="results__retake" type="button" aria-label="Retake the quiz">
         Take Again
       </button>
