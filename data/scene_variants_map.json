@@ -1,0 +1,248 @@
+{
+  "path_counts": {
+    "big_couch": {
+      "sad": 11,
+      "mid": 11,
+      "happy": 11
+    },
+    "big_plant": {
+      "sad": 14,
+      "mid": 14,
+      "happy": 14
+    },
+    "frame": {
+      "sad": 24,
+      "mid": 24,
+      "happy": 24
+    },
+    "little_couch": {
+      "sad": 8,
+      "mid": 8,
+      "happy": 8
+    },
+    "little_plant": {
+      "sad": 6,
+      "mid": 6,
+      "happy": 6
+    },
+    "table": {
+      "sad": 69,
+      "mid": 69,
+      "happy": 69
+    },
+    "pillow": {
+      "sad": 9,
+      "mid": 9,
+      "happy": 9
+    },
+    "sun": {
+      "sad": 16,
+      "mid": 16,
+      "happy": 16
+    }
+  },
+  "boundaries": [
+    {
+      "el_idx": 0,
+      "el_name": "big_couch",
+      "variant": "sad",
+      "start": 2,
+      "end": 13,
+      "path_count": 11
+    },
+    {
+      "el_idx": 0,
+      "el_name": "big_couch",
+      "variant": "mid",
+      "start": 13,
+      "end": 24,
+      "path_count": 11
+    },
+    {
+      "el_idx": 0,
+      "el_name": "big_couch",
+      "variant": "happy",
+      "start": 24,
+      "end": 35,
+      "path_count": 11
+    },
+    {
+      "el_idx": 1,
+      "el_name": "big_plant",
+      "variant": "sad",
+      "start": 35,
+      "end": 49,
+      "path_count": 14
+    },
+    {
+      "el_idx": 1,
+      "el_name": "big_plant",
+      "variant": "mid",
+      "start": 49,
+      "end": 63,
+      "path_count": 14
+    },
+    {
+      "el_idx": 1,
+      "el_name": "big_plant",
+      "variant": "happy",
+      "start": 63,
+      "end": 77,
+      "path_count": 14
+    },
+    {
+      "el_idx": 2,
+      "el_name": "frame",
+      "variant": "sad",
+      "start": 77,
+      "end": 101,
+      "path_count": 24
+    },
+    {
+      "el_idx": 2,
+      "el_name": "frame",
+      "variant": "mid",
+      "start": 101,
+      "end": 125,
+      "path_count": 24
+    },
+    {
+      "el_idx": 2,
+      "el_name": "frame",
+      "variant": "happy",
+      "start": 125,
+      "end": 149,
+      "path_count": 24
+    },
+    {
+      "el_idx": 3,
+      "el_name": "little_couch",
+      "variant": "sad",
+      "start": 149,
+      "end": 157,
+      "path_count": 8
+    },
+    {
+      "el_idx": 3,
+      "el_name": "little_couch",
+      "variant": "mid",
+      "start": 157,
+      "end": 165,
+      "path_count": 8
+    },
+    {
+      "el_idx": 3,
+      "el_name": "little_couch",
+      "variant": "happy",
+      "start": 165,
+      "end": 173,
+      "path_count": 8
+    },
+    {
+      "el_idx": 4,
+      "el_name": "little_plant",
+      "variant": "sad",
+      "start": 173,
+      "end": 179,
+      "path_count": 6
+    },
+    {
+      "el_idx": 4,
+      "el_name": "little_plant",
+      "variant": "mid",
+      "start": 179,
+      "end": 185,
+      "path_count": 6
+    },
+    {
+      "el_idx": 4,
+      "el_name": "little_plant",
+      "variant": "happy",
+      "start": 185,
+      "end": 191,
+      "path_count": 6
+    },
+    {
+      "el_idx": 5,
+      "el_name": "table",
+      "variant": "sad",
+      "start": 191,
+      "end": 260,
+      "path_count": 69
+    },
+    {
+      "el_idx": 5,
+      "el_name": "table",
+      "variant": "mid",
+      "start": 260,
+      "end": 329,
+      "path_count": 69
+    },
+    {
+      "el_idx": 5,
+      "el_name": "table",
+      "variant": "happy",
+      "start": 329,
+      "end": 398,
+      "path_count": 69
+    },
+    {
+      "el_idx": 6,
+      "el_name": "pillow",
+      "variant": "sad",
+      "start": 398,
+      "end": 407,
+      "path_count": 9
+    },
+    {
+      "el_idx": 6,
+      "el_name": "pillow",
+      "variant": "mid",
+      "start": 407,
+      "end": 416,
+      "path_count": 9
+    },
+    {
+      "el_idx": 6,
+      "el_name": "pillow",
+      "variant": "happy",
+      "start": 416,
+      "end": 425,
+      "path_count": 9
+    },
+    {
+      "el_idx": 7,
+      "el_name": "sun",
+      "variant": "sad",
+      "start": 425,
+      "end": 441,
+      "path_count": 16
+    },
+    {
+      "el_idx": 7,
+      "el_name": "sun",
+      "variant": "mid",
+      "start": 441,
+      "end": 457,
+      "path_count": 16
+    },
+    {
+      "el_idx": 7,
+      "el_name": "sun",
+      "variant": "happy",
+      "start": 457,
+      "end": 473,
+      "path_count": 16
+    }
+  ],
+  "element_names": [
+    "big_couch",
+    "big_plant",
+    "frame",
+    "little_couch",
+    "little_plant",
+    "table",
+    "pillow",
+    "sun"
+  ]
+}

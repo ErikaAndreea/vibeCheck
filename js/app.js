@@ -1,9 +1,6 @@
 (function () {
   "use strict";
 
-  const STORAGE_KEY = "vibe_check_session";
-  const QUESTIONS_PER_SESSION = 5;
-  const CONFIDENCE_THRESHOLD = 2;
   const PODCASTS_BY_MOOD = {
     Calm: [
       {
@@ -195,17 +192,28 @@
   ];
 
   let questionBank = [];
+  let questionSequence = [];
   let moodProfiles = [];
+  let sceneSvgTemplate = "";
 
   async function loadData() {
     try {
-      const [qRes, mRes] = await Promise.all([
+      const [qRes, sRes, mRes, svgRes] = await Promise.all([
         fetch("data/questions.json"),
+        fetch("data/sequence.json"),
         fetch("data/moods.json"),
+        fetch("data/scene_variants.svg"),
       ]);
-      if (!qRes.ok || !mRes.ok) throw new Error("Failed to load data");
+      if (!qRes.ok || !sRes.ok || !mRes.ok || !svgRes.ok) throw new Error("Failed to load data");
       questionBank = await qRes.json();
+      const seq = await sRes.json();
       moodProfiles = await mRes.json();
+      sceneSvgTemplate = await svgRes.text();
+      const qMap = Object.fromEntries(questionBank.map((q) => [q.id, q]));
+      questionSequence = (seq.questionIds || []).map((id) => qMap[id]).filter(Boolean);
+      if (questionSequence.length === 0) {
+        questionSequence = questionBank.slice(0, 5);
+      }
       return true;
     } catch (e) {
       console.error("Could not load data. Serve the app (e.g. npx serve .) to load JSON.", e);
@@ -213,61 +221,26 @@
     }
   }
 
-  function generateSessionId() {
-    return "vc_" + Date.now() + "_" + Math.random().toString(36).slice(2, 11);
+  function updateSceneVisual(container, questionsAnswered, selections, questions) {
+    const svgEl = container && container.querySelector("#vibe-scene");
+    if (!svgEl || !window.VibeScene) return;
+    const choices = window.VibeScene.buildChoices(selections || [], questions || []);
+    window.VibeScene.applySceneState(svgEl, questionsAnswered, choices);
   }
 
-  function createSession() {
-    const session = {
-      id: generateSessionId(),
-      createdAt: Date.now(),
+  function deriveMoodLabel(totals) {
+    const norm = window.VibeScene.normalizeVAC(totals);
+    const raw = {
+      v: (norm.v / 100) * 20 - 10,
+      a: (norm.a / 100) * 20 - 10,
+      c: (norm.c / 100) * 20 - 10,
     };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
-    return session.id;
-  }
-
-  function shuffleArray(array, seed) {
-    const arr = [...array];
-    let s = seed;
-    for (let i = arr.length - 1; i > 0; i--) {
-      s = (s * 9301 + 49297) % 233280;
-      const j = Math.floor((s / 233280) * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-  }
-
-  function getSessionQuestions(sessionId) {
-    const seed = sessionId.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
-    const shuffled = shuffleArray(questionBank, seed);
-    return shuffled.slice(0, QUESTIONS_PER_SESSION);
-  }
-
-  function squaredDistance(user, centroid) {
-    const dv = (user.v - centroid.v) ** 2;
-    const da = (user.a - centroid.a) ** 2;
-    const dc = (user.c - centroid.c) ** 2;
-    return dv + da + dc;
-  }
-
-  function computeResult(totals) {
-    const user = { v: totals.v, a: totals.a, c: totals.c };
+    const squaredDist = (a, b) =>
+      (a.v - b.v) ** 2 + (a.a - b.a) ** 2 + (a.c - b.c) ** 2;
     const ranked = moodProfiles
-      .map((m) => ({
-        ...m,
-        distance: squaredDistance(user, m.target),
-      }))
+      .map((m) => ({ ...m, distance: squaredDist(raw, m.target) }))
       .sort((a, b) => a.distance - b.distance);
-
-    const best = ranked[0];
-    const second = ranked[1];
-    const gap = second ? second.distance - best.distance : Infinity;
-    const isConfident = gap >= CONFIDENCE_THRESHOLD;
-
-    if (isConfident || !second) {
-      return best.label;
-    }
-    return best.label + " & " + second.label;
+    return ranked[0]?.label ?? "Balanced";
   }
 
   function escapeHtml(str) {
@@ -307,19 +280,19 @@
     el.setAttribute("aria-label", "Quiz introduction");
     el.innerHTML = `
       <h1 class="intro__title">Vibe Check</h1>
-      <p class="intro__subtitle">A 2-minute emotional check-in</p>
+      <p class="intro__subtitle">Build your vibe space</p>
       <p class="intro__description">
-        Reflect through gentle metaphors—plants, weather, textures—and discover your current vibe. No direct questions, just quiet noticing.
+        Answer 8 short questions. As you go, your answers fill a room and cozy details appear. Your choices reflect your current vibe in real time.
       </p>
-      <button class="intro__cta" type="button" aria-label="Start the emotional check-in quiz">
-        Start Quiz
+      <button class="intro__cta" type="button" aria-label="Start building your vibe space">
+        Start Building
       </button>
     `;
     el.querySelector(".intro__cta").addEventListener("click", onStart);
     return el;
   }
 
-  function renderQuestionScreen(question, progress, onSelect, onBack) {
+  function renderQuestionScreen(question, progress, selections, questions, onSelect, onBack) {
     const el = document.createElement("div");
     el.className = "quiz-screen";
     el.setAttribute("role", "region");
@@ -328,7 +301,7 @@
     const optionsHtml = question.options
       .map(
         (opt) => `
-        <button type="button" class="option" data-question-id="${escapeHtml(question.id)}" data-option-id="${escapeHtml(opt.id)}" data-v="${opt.scores.v}" data-a="${opt.scores.a}" data-c="${opt.scores.c}">
+        <button type="button" class="option" data-option-id="${escapeHtml(opt.id)}" data-v="${opt.scores.v}" data-a="${opt.scores.a}" data-c="${opt.scores.c}">
           ${opt.emoji ? `<span class="option__icon" aria-hidden="true">${opt.emoji}</span>` : ""}
           <span class="option__content">
             <span class="option__label">${escapeHtml(opt.text)}</span>
@@ -341,25 +314,34 @@
     const progressPct = (progress.current / progress.total) * 100;
 
     el.innerHTML = `
-      <div class="quiz-screen__top">
-        <button type="button" class="quiz-screen__back" aria-label="${progress.current === 1 ? "Return to start" : "Go to previous question"}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <div class="progress" role="progressbar" aria-valuenow="${progress.current}" aria-valuemin="0" aria-valuemax="${progress.total}" aria-label="Question ${progress.current} of ${progress.total}">
-          <span class="progress__label">${progress.current}/${progress.total}</span>
-          <div class="progress__bar">
-            <div class="progress__fill" style="width: ${progressPct}%"></div>
+      <div class="quiz-screen__layout">
+        <div class="quiz-screen__scene" aria-hidden="true">
+          ${sceneSvgTemplate || ""}
+        </div>
+        <div class="quiz-screen__quiz">
+          <div class="quiz-screen__top">
+            <button type="button" class="quiz-screen__back" aria-label="${progress.current === 1 ? "Return to start" : "Go to previous question"}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <div class="progress" role="progressbar" aria-valuenow="${progress.current}" aria-valuemin="0" aria-valuemax="${progress.total}" aria-label="Question ${progress.current} of ${progress.total}">
+              <span class="progress__label">${progress.current}/${progress.total}</span>
+              <div class="progress__bar">
+                <div class="progress__fill" style="width: ${progressPct}%"></div>
+              </div>
+            </div>
+            <div style="width: 40px;"></div>
+          </div>
+          <div class="question">
+            <h2 class="question__text">${escapeHtml(question.prompt)}</h2>
+          </div>
+          <div class="options" role="group" aria-label="Answer options">
+            ${optionsHtml}
           </div>
         </div>
-        <div style="width: 40px;"></div>
-      </div>
-      <div class="question">
-        <h2 class="question__text">${escapeHtml(question.prompt)}</h2>
-      </div>
-      <div class="options" role="group" aria-label="Answer options">
-        ${optionsHtml}
       </div>
     `;
+
+    updateSceneVisual(el, progress.current - 1, selections, questions);
 
     el.querySelector(".quiz-screen__back").addEventListener("click", onBack);
 
@@ -378,7 +360,7 @@
     return el;
   }
 
-  function renderResults(label) {
+  function renderResults(label, selections, questions) {
     const el = document.createElement("div");
     el.className = "results";
     el.setAttribute("role", "region");
@@ -397,6 +379,9 @@
       )
       .join("");
     el.innerHTML = `
+      <div class="results__scene" aria-hidden="true">
+        ${sceneSvgTemplate || ""}
+      </div>
       <p class="results__label">Your current vibe</p>
       <h2 class="results__vibe">${escapeHtml(label)}</h2>
       <p class="results__message">
@@ -413,6 +398,7 @@
         Take Again
       </button>
     `;
+    updateSceneVisual(el, 8, selections, questions);
     el.querySelector(".results__retake").addEventListener("click", () => {
       const intro = renderIntro(startQuiz);
       transitionTo(intro, "results--transition-out");
@@ -443,20 +429,20 @@
 
   function transitionTo(node, outClass) {
     const current = app.firstElementChild;
+    let done = false;
+    const doReplace = () => {
+      if (done) return;
+      done = true;
+      app.innerHTML = "";
+      app.appendChild(node);
+      focusFirstInteractive(node);
+    };
     if (current && outClass) {
       current.classList.add(outClass);
-      current.addEventListener(
-        "animationend",
-        () => {
-          app.innerHTML = "";
-          app.appendChild(node);
-          focusFirstInteractive(node);
-        },
-        { once: true }
-      );
+      current.addEventListener("animationend", doReplace, { once: true });
+      setTimeout(doReplace, 500);
     } else {
-      setContent(node);
-      focusFirstInteractive(node);
+      doReplace();
     }
   }
 
@@ -466,7 +452,6 @@
   }
 
   let state = {
-    sessionId: null,
     questions: [],
     currentIndex: 0,
     selections: [],
@@ -474,8 +459,7 @@
   };
 
   function startQuiz() {
-    state.sessionId = createSession();
-    state.questions = getSessionQuestions(state.sessionId);
+    state.questions = [...questionSequence];
     state.currentIndex = 0;
     state.selections = [];
     state.totals = { v: 0, a: 0, c: 0 };
@@ -492,8 +476,8 @@
     if (state.currentIndex < state.questions.length) {
       showQuestion();
     } else {
-      const result = computeResult(state.totals);
-      const results = renderResults(result);
+      const label = deriveMoodLabel(state.totals);
+      const results = renderResults(label, state.selections, state.questions);
       transitionTo(results, "quiz-screen--transition-out");
     }
   }
@@ -521,7 +505,7 @@
   function showQuestion() {
     const q = state.questions[state.currentIndex];
     const progress = { current: state.currentIndex + 1, total: state.questions.length };
-    const screen = renderQuestionScreen(q, progress, handleSelect, handleBack);
+    const screen = renderQuestionScreen(q, progress, state.selections, state.questions, handleSelect, handleBack);
     const isFirstQuestion = state.currentIndex === 0;
     transitionTo(screen, isFirstQuestion ? "intro--transition-out" : "quiz-screen--transition-out");
   }

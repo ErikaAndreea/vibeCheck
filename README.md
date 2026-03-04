@@ -1,13 +1,13 @@
 # Vibe Check
 
-A mobile-first emotional check-in quiz. Users answer 5 metaphor-based questions and receive a mood result based on 3D scoring (valence, arousal, control).
+A mobile-first emotional check-in that builds a visual house as you answer. Users answer 5 metaphor-based questions in a fixed order; each answer updates a layered SVG house (sky, foundation, roof, windows, garden, weather) based on valence, arousal, and control (V/A/C) scores.
 
 ## Install
 
 Clone the repo:
    ```bash
    git clone <repo-url>
-   cd IXD
+   cd vibeCheck
    ```
 
 ## Start & Test
@@ -18,26 +18,26 @@ Serve the app (required for JSON loading):
 npx serve .
 ```
 
-Open the URL in a browser. Click Start Quiz, answer 5 questions, view result.
+Open the URL in a browser. Click Start Building, answer 5 questions, watch your house evolve, then view the final house and mood result.
 
 ## Logic & Flow
 
 **1. Start**
-- Generate unique session ID, store in `localStorage`
-- Shuffle question bank (seeded by session ID)
-- Pick 5 questions
+- Load fixed 5-question sequence from `data/sequence.json`
+- No randomization; same questions every time
 
 **2. Quiz**
 - One question per screen, 3 options each
-- User taps an option → save `questionId` + `optionId`, add option scores to running totals (v, a, c)
-- Auto-advance to next question
-- Back button undoes last answer and subtracts its scores
+- House SVG visible alongside each question
+- User taps an option → add option scores to running totals (v, a, c)
+- House updates immediately: sky, foundation, roof, windows, garden, weather reflect current V/A/C
 
 **3. Scoring**
 - Each option has `scores: { v, a, c }` (-2 to +2)
 - Totals = sum of scores across 5 answers
+- Normalize totals to 0–100 per dimension
+- Map to `houseState`: valence → warmth/lighting, arousal → energy/openness, control → stability (low control → cracks, rain, clutter)
 
 **4. Result**
-- Compute squared Euclidean distance from user totals to each mood centroid: `(v-mv)² + (a-ma)² + (c-mc)²`
-- Primary mood = smallest distance
-- If gap between best and second-best < 2: show both (e.g. "Calm & Peaceful")
+- Completed house visualization
+- Mood label derived from final V/A/C totals (nearest mood centroid)
