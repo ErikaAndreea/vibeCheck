@@ -436,11 +436,19 @@ body::before {
   gap: 0.35rem;
 }
 
+.podcast-item__title--static {
+  cursor: default;
+}
+
 .podcast-item__title::after {
   content: "↗";
   font-size: 0.85rem;
   color: var(--color-text-muted);
   transform: translateY(-1px);
+}
+
+.podcast-item__title--static::after {
+  content: "";
 }
 
 .podcast-item__title:hover {

@@ -190,6 +190,120 @@
       url: "https://www.happinesslab.fm/",
     },
   ];
+  const PLAYLISTS_BY_MOOD = {
+    Calm: [
+      { title: "Calm Piano", description: "Soft keys for a steady breath." },
+      { title: "Lo-Fi Chill", description: "Warm loops and gentle focus." },
+      { title: "Acoustic Morning", description: "Light strings to start easy." },
+    ],
+    Peaceful: [
+      { title: "Ambient Relaxation", description: "Slow atmospheres and drift." },
+      { title: "Soft Instrumentals", description: "Quiet textures without lyrics." },
+      { title: "Gentle Jazz", description: "Unhurried, cozy grooves." },
+    ],
+    Energized: [
+      { title: "Power Workout", description: "Up-tempo beats for momentum." },
+      { title: "Pop Rising", description: "Bright hooks and high energy." },
+      { title: "Indie Rock Roadtrip", description: "Driving guitars and lift." },
+    ],
+    Motivated: [
+      { title: "Focus Flow", description: "Rhythms that keep you moving." },
+      { title: "Confidence Boost", description: "Bold tracks, clear direction." },
+      { title: "Productive Morning", description: "Crisp starts for your to-do list." },
+    ],
+    Balanced: [
+      { title: "Chill Hits", description: "Easygoing energy with clarity." },
+      { title: "Coffeehouse", description: "Steady ambiance for a calm pace." },
+      { title: "Indie Chillout", description: "Laid-back but alert." },
+    ],
+    Stressed: [
+      { title: "Deep Focus", description: "Low-distraction instrumentals." },
+      { title: "Stress Relief", description: "Soothing, slower tempos." },
+      { title: "Binaural Beats", description: "Gentle frequency textures." },
+    ],
+    Anxious: [
+      { title: "Calm Vibes", description: "Soft, steady rhythms." },
+      { title: "Peaceful Piano", description: "Minimal piano to settle in." },
+      { title: "Ambient Chill", description: "Low-intensity soundscapes." },
+    ],
+    Overwhelmed: [
+      { title: "Gentle Rain", description: "Nature sounds and softness." },
+      { title: "Quiet Focus", description: "Simple instrumentals, low demand." },
+      { title: "Lo-Fi Slowdown", description: "Downshift with mellow beats." },
+    ],
+    Drained: [
+      { title: "Sleep", description: "Slow, sleepy textures." },
+      { title: "Night Rain", description: "Soft ambience for recovery." },
+      { title: "Acoustic Chill", description: "Light strings and warmth." },
+    ],
+    Unmotivated: [
+      { title: "Feel-Good Pop", description: "Bright tracks for a lift." },
+      { title: "Indie Uplift", description: "Melodic energy without pressure." },
+      { title: "Morning Boost", description: "A gentle nudge into motion." },
+    ],
+  };
+  const DEFAULT_PLAYLISTS = [
+    { title: "Chill Hits", description: "Easygoing energy with clarity." },
+    { title: "Peaceful Piano", description: "Minimal piano to settle in." },
+    { title: "Focus Flow", description: "Rhythms that keep you moving." },
+  ];
+  const ACTIVITIES_BY_MOOD = {
+    Calm: [
+      { title: "Make a warm drink", description: "Slow sips and a soft reset." },
+      { title: "5-minute tidy", description: "One small surface, clear mind." },
+      { title: "Window breathing", description: "Inhale for 4, exhale for 6." },
+    ],
+    Peaceful: [
+      { title: "Light stretch", description: "Neck and shoulders, slow circles." },
+      { title: "Write three gratitudes", description: "Small, specific moments." },
+      { title: "Sit in sunlight", description: "Two quiet minutes, no phone." },
+    ],
+    Energized: [
+      { title: "10-minute walk", description: "Fast pace, no destination." },
+      { title: "Dance to one song", description: "Full-body shakeout." },
+      { title: "Quick brainstorm", description: "Write 10 ideas in 2 minutes." },
+    ],
+    Motivated: [
+      { title: "Pick one task", description: "Define the tiniest first step." },
+      { title: "Set a 20-minute timer", description: "Single-focus sprint." },
+      { title: "Clear your workspace", description: "Reset for momentum." },
+    ],
+    Balanced: [
+      { title: "Short reflection", description: "What feels aligned today?" },
+      { title: "Make a simple plan", description: "Top 3 priorities only." },
+      { title: "Take a screen break", description: "Step outside for a moment." },
+    ],
+    Stressed: [
+      { title: "Box breathing", description: "4 in, 4 hold, 4 out, 4 hold." },
+      { title: "Grounding scan", description: "Name 5 things you see." },
+      { title: "Stretch your jaw", description: "Release tension with slow opens." },
+    ],
+    Anxious: [
+      { title: "Cold water reset", description: "Rinse hands in cool water." },
+      { title: "Write a worry list", description: "Move it out of your head." },
+      { title: "Slow foot taps", description: "Count 1–10, repeat." },
+    ],
+    Overwhelmed: [
+      { title: "Two-minute pause", description: "Do nothing; just breathe." },
+      { title: "Single-task", description: "Pick one micro-task and finish." },
+      { title: "Reduce input", description: "Silence notifications for 30 min." },
+    ],
+    Drained: [
+      { title: "Lie down, eyes closed", description: "3 minutes of quiet." },
+      { title: "Gentle hydration", description: "Water + a pinch of salt." },
+      { title: "Low-light reset", description: "Dim lights, calm your system." },
+    ],
+    Unmotivated: [
+      { title: "Two-minute start", description: "Open the doc, write one line." },
+      { title: "Change your scene", description: "Different chair, different energy." },
+      { title: "Playlist + timer", description: "One song to begin." },
+    ],
+  };
+  const DEFAULT_ACTIVITIES = [
+    { title: "Take 3 deep breaths", description: "Inhale 4, exhale 6." },
+    { title: "Stand and stretch", description: "Reach up, roll shoulders." },
+    { title: "Sip water", description: "Small reset for your body." },
+  ];
 
   let questionBank = [];
   let questionSequence = [];
@@ -268,6 +382,55 @@
     }
     moods.forEach((mood) => {
       const items = PODCASTS_BY_MOOD[mood] || DEFAULT_PODCASTS;
+      add(items);
+    });
+    return picks.slice(0, 4);
+  }
+
+  function getSpotifyRecommendations(label) {
+    const moods = label.split(" & ").map((item) => item.trim()).filter(Boolean);
+    const picks = [];
+    const seen = new Set();
+    const add = (items) => {
+      items.forEach((item) => {
+        if (!seen.has(item.title)) {
+          seen.add(item.title);
+          picks.push({
+            ...item,
+            url: `https://open.spotify.com/search/${encodeURIComponent(item.title)}`,
+          });
+        }
+      });
+    };
+    if (moods.length === 0) {
+      add(DEFAULT_PLAYLISTS);
+      return picks.slice(0, 4);
+    }
+    moods.forEach((mood) => {
+      const items = PLAYLISTS_BY_MOOD[mood] || DEFAULT_PLAYLISTS;
+      add(items);
+    });
+    return picks.slice(0, 4);
+  }
+
+  function getActivityRecommendations(label) {
+    const moods = label.split(" & ").map((item) => item.trim()).filter(Boolean);
+    const picks = [];
+    const seen = new Set();
+    const add = (items) => {
+      items.forEach((item) => {
+        if (!seen.has(item.title)) {
+          seen.add(item.title);
+          picks.push(item);
+        }
+      });
+    };
+    if (moods.length === 0) {
+      add(DEFAULT_ACTIVITIES);
+      return picks.slice(0, 4);
+    }
+    moods.forEach((mood) => {
+      const items = ACTIVITIES_BY_MOOD[mood] || DEFAULT_ACTIVITIES;
       add(items);
     });
     return picks.slice(0, 4);
@@ -366,6 +529,8 @@
     el.setAttribute("role", "region");
     el.setAttribute("aria-label", "Quiz results");
     const podcasts = getPodcastRecommendations(label);
+    const playlists = getSpotifyRecommendations(label);
+    const activities = getActivityRecommendations(label);
     const podcastHtml = podcasts
       .map(
         (podcast) => `
@@ -374,6 +539,28 @@
             ${escapeHtml(podcast.title)}
           </a>
           <span class="podcast-item__desc">${escapeHtml(podcast.description)}</span>
+        </li>
+      `
+      )
+      .join("");
+    const playlistHtml = playlists
+      .map(
+        (playlist) => `
+        <li class="podcast-item">
+          <a class="podcast-item__title" href="${escapeHtml(playlist.url)}" target="_blank" rel="noopener noreferrer">
+            ${escapeHtml(playlist.title)}
+          </a>
+          <span class="podcast-item__desc">${escapeHtml(playlist.description)}</span>
+        </li>
+      `
+      )
+      .join("");
+    const activityHtml = activities
+      .map(
+        (activity) => `
+        <li class="podcast-item">
+          <span class="podcast-item__title podcast-item__title--static">${escapeHtml(activity.title)}</span>
+          <span class="podcast-item__desc">${escapeHtml(activity.description)}</span>
         </li>
       `
       )
@@ -392,6 +579,20 @@
         <p class="results__section-note">A few gentle listens to match your current mood.</p>
         <ul class="podcast-list" role="list">
           ${podcastHtml}
+        </ul>
+      </section>
+      <section class="results__podcasts" aria-label="Spotify playlist recommendations">
+        <h3 class="results__section-title">Spotify playlists</h3>
+        <p class="results__section-note">Open a Spotify search for each playlist.</p>
+        <ul class="podcast-list" role="list">
+          ${playlistHtml}
+        </ul>
+      </section>
+      <section class="results__podcasts" aria-label="Activity suggestions">
+        <h3 class="results__section-title">Try this right now</h3>
+        <p class="results__section-note">Low-effort activities that match your energy.</p>
+        <ul class="podcast-list" role="list">
+          ${activityHtml}
         </ul>
       </section>
       <button class="results__retake" type="button" aria-label="Retake the quiz">
