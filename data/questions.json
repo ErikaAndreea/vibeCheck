@@ -1,102 +1,82 @@
 [
   {
     "id": "Q01",
-    "prompt": "Which plant do you relate to today?",
+    "prompt": "Pick a type of sky.",
     "targetDimension": "valence",
     "options": [
-      { "id": "A", "text": "A cactus—standing strong, a bit guarded", "emoji": "🌵", "scores": { "v": -1, "a": 0, "c": 1 } },
-      { "id": "B", "text": "A sunflower—reaching toward the light", "emoji": "🌻", "scores": { "v": 2, "a": 1, "c": 0 } },
-      { "id": "C", "text": "A fern in the shade—soft, quiet, resting", "emoji": "🌿", "scores": { "v": 0, "a": -2, "c": -1 } }
+    { "id": "A", "text": "A bright peaceful sky", "emoji": "☀️", "scores": { "v": 2, "a": 0, "c": 1 } },
+    { "id": "B", "text": "A quiet cloudy sky", "emoji": "☁️", "scores": { "v": -1, "a": -1, "c": 0 } },
+    { "id": "C", "text": "A wild windy sky", "emoji": "🌬️", "scores": { "v": 0, "a": 2, "c": -1 } }
     ]
-  },
+    },
   {
     "id": "Q02",
-    "prompt": "Which weather describes your inner state right now?",
+    "prompt": "Which sound fits your mood?",
     "targetDimension": "arousal",
     "options": [
-      { "id": "A", "text": "Clear sky, gentle breeze", "emoji": "🌤️", "scores": { "v": 1, "a": 0, "c": 1 } },
-      { "id": "B", "text": "Overcast, waiting for the sun", "emoji": "☁️", "scores": { "v": -1, "a": -1, "c": 0 } },
-      { "id": "C", "text": "Warm sun, everything feels possible", "emoji": "☀️", "scores": { "v": 2, "a": 2, "c": 1 } }
+    { "id": "A", "text": "Slow ocean waves", "emoji": "🌊", "scores": { "v": 2, "a": -2, "c": 1 } },
+    { "id": "B", "text": "Wind passing by", "emoji": "🌬️", "scores": { "v": 0, "a": 0, "c": 0 } },
+    { "id": "C", "text": "Fast drum beats", "emoji": "🥁", "scores": { "v": 1, "a": 2, "c": -1 } }
     ]
-  },
+    },
   {
-    "id": "Q03",
-    "prompt": "Which creature would you be in this moment?",
-    "targetDimension": "control",
-    "options": [
-      { "id": "A", "text": "A butterfly—light, moving with the wind", "emoji": "🦋", "scores": { "v": 1, "a": 0, "c": -1 } },
-      { "id": "B", "text": "A bird on a branch—observing, at ease", "emoji": "🐦", "scores": { "v": 0, "a": -1, "c": 1 } },
-      { "id": "C", "text": "A turtle—taking things slow, protected", "emoji": "🐢", "scores": { "v": -1, "a": -2, "c": 1 } }
-    ]
+      "id": "Q03",
+      "prompt": "Pick a seat to relax in.",
+      "targetDimension": "control",
+      "options": [
+      { "id": "A", "text": "A comfy armchair", "emoji": "🪑", "scores": { "v": 2, "a": -1, "c": 2 } },
+      { "id": "B", "text": "A park bench", "emoji": "🪵", "scores": { "v": 0, "a": -1, "c": 0 } },
+      { "id": "C", "text": "A spinning office chair", "emoji": "💺", "scores": { "v": 1, "a": 2, "c": -1 } }
+      ]
   },
   {
     "id": "Q04",
-    "prompt": "If you were a body of water, what would you be?",
+    "prompt": "What kind of drink matches your energy?",
     "targetDimension": "arousal",
     "options": [
-      { "id": "A", "text": "A still pond—reflective, deep", "emoji": "🌊", "scores": { "v": 0, "a": -2, "c": 0 } },
-      { "id": "B", "text": "A gentle stream—flowing, steady", "emoji": "💧", "scores": { "v": 1, "a": 0, "c": 1 } },
-      { "id": "C", "text": "The ocean at dawn—vast, full of possibility", "emoji": "🌅", "scores": { "v": 2, "a": 1, "c": 0 } }
+    { "id": "A", "text": "A warm cup of tea", "emoji": "🍵", "scores": { "v": 2, "a": -2, "c": 1 } },
+    { "id": "B", "text": "A glass of water", "emoji": "💧", "scores": { "v": 0, "a": -1, "c": 1 } },
+    { "id": "C", "text": "A strong espresso", "emoji": "☕", "scores": { "v": 1, "a": 2, "c": -1 } }
     ]
-  },
+    },
   {
-    "id": "Q05",
-    "prompt": "What time of day feels most like you right now?",
-    "targetDimension": "valence",
-    "options": [
-      { "id": "A", "text": "Early morning—quiet, before the world wakes", "emoji": "🌅", "scores": { "v": -1, "a": -1, "c": 0 } },
-      { "id": "B", "text": "Midday—bright, in the thick of it", "emoji": "☀️", "scores": { "v": 1, "a": 2, "c": 1 } },
-      { "id": "C", "text": "Golden hour—soft light, gentle wind-down", "emoji": "🌇", "scores": { "v": 1, "a": -1, "c": 1 } }
-    ]
+      "id": "Q05",
+      "prompt": "Which snack matches your vibe?",
+      "targetDimension": "valence",
+      "options": [
+      { "id": "A", "text": "Warm cookies", "emoji": "🍪", "scores": { "v": 2, "a": 0, "c": 1 } },
+      { "id": "B", "text": "Plain crackers", "emoji": "🍘", "scores": { "v": 0, "a": -1, "c": 0 } },
+      { "id": "C", "text": "Spicy chips", "emoji": "🌶️", "scores": { "v": 1, "a": 2, "c": -1 } }
+      ]
   },
   {
     "id": "Q06",
-    "prompt": "Which texture matches how you feel inside?",
+    "prompt": "Pick a type of adventure.",
     "targetDimension": "control",
     "options": [
-      { "id": "A", "text": "Smooth stone—worn, steady, grounded", "emoji": "🪨", "scores": { "v": 0, "a": 0, "c": 2 } },
-      { "id": "B", "text": "Soft moss—tender, receptive", "emoji": "🌿", "scores": { "v": 0, "a": -1, "c": -1 } },
-      { "id": "C", "text": "Warm sand—shifting, adaptable", "emoji": "🏖️", "scores": { "v": 1, "a": 0, "c": 0 } }
+    { "id": "A", "text": "A well-planned trip", "emoji": "🗺️", "scores": { "v": 1, "a": -1, "c": 2 } },
+    { "id": "B", "text": "Wandering without a plan", "emoji": "🚶", "scores": { "v": 0, "a": 0, "c": -1 } },
+    { "id": "C", "text": "A sudden wild adventure", "emoji": "🏕️", "scores": { "v": 1, "a": 2, "c": -2 } }
     ]
   },
   {
     "id": "Q07",
-    "prompt": "What sound would you make if you could?",
+    "prompt": "Which creature feels most like you right now?",
     "targetDimension": "arousal",
     "options": [
-      { "id": "A", "text": "A hum—low, steady, constant", "emoji": "🎵", "scores": { "v": 0, "a": -2, "c": 1 } },
-      { "id": "B", "text": "Wind through leaves—soft, rustling", "emoji": "🍃", "scores": { "v": 0, "a": -1, "c": 0 } },
-      { "id": "C", "text": "A clear bell—ringing out, resonant", "emoji": "🔔", "scores": { "v": 1, "a": 1, "c": 1 } }
+    { "id": "A", "text": "A sleepy cat napping in the sun", "emoji": "🐱", "scores": { "v": 2, "a": -2, "c": 1 } },
+    { "id": "B", "text": "A turtle slowly exploring", "emoji": "🐢", "scores": { "v": 0, "a": -1, "c": 2 } },
+    { "id": "C", "text": "A squirrel bouncing everywhere", "emoji": "🐿️", "scores": { "v": 1, "a": 2, "c": -1 } }
     ]
-  },
+  },    
   {
-    "id": "Q08",
-    "prompt": "Where does your path feel like it's leading today?",
-    "targetDimension": "control",
-    "options": [
-      { "id": "A", "text": "Uphill—effort, but I'm moving", "emoji": "⛰️", "scores": { "v": 0, "a": 1, "c": 1 } },
-      { "id": "B", "text": "A flat stretch—steady, no rush", "emoji": "🛤️", "scores": { "v": 1, "a": 0, "c": 1 } },
-      { "id": "C", "text": "A rest stop—pausing, catching my breath", "emoji": "🪑", "scores": { "v": -1, "a": -2, "c": -1 } }
-    ]
-  },
-  {
-    "id": "Q09",
-    "prompt": "What kind of light are you drawn to right now?",
-    "targetDimension": "valence",
-    "options": [
-      { "id": "A", "text": "Candlelight—warm, intimate, soft", "emoji": "🕯️", "scores": { "v": 0, "a": -1, "c": 0 } },
-      { "id": "B", "text": "Window light—natural, clear, honest", "emoji": "🪟", "scores": { "v": 1, "a": 0, "c": 1 } },
-      { "id": "C", "text": "Open sky—bright, expansive, limitless", "emoji": "☀️", "scores": { "v": 2, "a": 1, "c": 0 } }
-    ]
-  },
-  {
-    "id": "Q10",
-    "prompt": "Which season lives inside you today?",
-    "targetDimension": "valence",
-    "options": [
-      { "id": "A", "text": "Winter—quiet, inward, conserving", "emoji": "❄️", "scores": { "v": -2, "a": -1, "c": 0 } },
-      { "id": "B", "text": "Spring—something stirring, new growth", "emoji": "🌸", "scores": { "v": 1, "a": 1, "c": 0 } },
-      { "id": "C", "text": "Summer—full, abundant, alive", "emoji": "☀️", "scores": { "v": 2, "a": 2, "c": 1 } }
-    ]
+      "id": "Q08",
+      "prompt": "Which kind of room feels right?",
+      "targetDimension": "control",
+      "options": [
+      { "id": "A", "text": "A tidy room with everything in place", "emoji": "🧹", "scores": { "v": 1, "a": -1, "c": 2 } },
+      { "id": "B", "text": "A simple empty room", "emoji": "⬜", "scores": { "v": 0, "a": 0, "c": 0 } },
+      { "id": "C", "text": "A messy creative studio", "emoji": "🎨", "scores": { "v": 1, "a": 2, "c": -1 } }
+      ]
   }
 ]
